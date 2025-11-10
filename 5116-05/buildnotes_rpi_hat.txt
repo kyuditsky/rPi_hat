@@ -1,0 +1,25 @@
+
+may1_23
+
+rev.04
+
+Steady 5vDC output
+
+9-50vDC input (no load)
+
+8-46vDC input (drawing 0.5 - 1.4 Watt load)
+
+
+
+***
+11/10/25
+
+	test most current board, with a rpi load
+	look at new topologies
+	reorganize git		#or start new if never reset
+		5116_05 > bury in new folder
+		call it powerhat_rpi
+		
+
+
+new topologies: LM5013 - 6-100vin (48v nominal) 3.5A out

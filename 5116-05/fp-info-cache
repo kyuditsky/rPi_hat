@@ -1,4 +1,4 @@
-21569510781002813
+21577905807688262
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -90447,6 +90447,20 @@ Transformer
 6
 6
 kyuditsky_kicad
+MOV
+
+
+0
+2
+2
+kyuditsky_kicad
+MOV_VP4032K122R300
+
+
+0
+2
+2
+kyuditsky_kicad
 PJ007
 PJ-007-1
 Connector
@@ -90517,6 +90531,20 @@ Diode
 3
 3
 kyuditsky_kicad
+dad_bod
+
+
+0
+0
+0
+kyuditsky_kicad
+dad_body
+
+
+0
+0
+0
+kyuditsky_kicad
 earrings_v03
 
 
@@ -90530,6 +90558,13 @@ TVS Diode (Uni-directional)
 0
 2
 2
+kyuditsky_kicad
+phoenix_LPT16_P10mm
+
+
+0
+4
+4
 kyuditsky_kicad
 usbC_GCT_USB4085
 
