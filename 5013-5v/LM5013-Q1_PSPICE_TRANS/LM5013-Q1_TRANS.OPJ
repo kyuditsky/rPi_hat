@@ -1,0 +1,60 @@
+(ExpressProject "LM5013-Q1_TRANS"
+  (ProjectVersion "19981106")
+  (SoftwareVersion "17.4-2019 S024 (3998392)  [12/6/2021]-[12/21/21]")
+  (ProjectType "Analog or A/D Mixed Mode")
+  (Folder "Design Resources"
+    (Folder "Library"
+      (File ".\lm5013-q1dda_trans.olb"
+        (Type "Schematic Library")))
+    ("Allegro Netlist Directory" "allegro")
+    (DOCKED "TRUE")
+    (DOCKING_POSITION "59420")
+    (NoModify)
+    (File ".\lm5013-q1_trans.dsn"
+      (Type "Schematic Design"))
+    (BuildFileAddedOrDeleted "x")
+    (CompileFileAddedOrDeleted "x")
+    (Display_Online_DRC_Results "FALSE")
+    (PSPICE_Regenerate_Netlist_Flag "FALSE")
+    (RootChangedForceReNetlist "x"))
+  (Folder "Layout")
+  (Folder "Outputs")
+  (Folder "PSpice Resources"
+    (Folder "Simulation Profiles"
+      (File.PSpice.{09528990-3187-11D2-BC7B-00A0C90CBF91}
+         ".\lm5013-q1_trans-pspicefiles\startup\trans.sim"
+        (DisplayName "STARTUP-TRANS")
+        (Type "PSpice Profile"))
+      (File.PSpice.{09528990-3187-11D2-BC7B-00A0C90CBF91}
+         ".\lm5013-q1_trans-pspicefiles\load_transient\trans.sim"
+        (DisplayName "LOAD_TRANSIENT-TRANS")
+        (Type "PSpice Profile"))
+      (ActiveProfile ".\lm5013-q1_trans-pspicefiles\startup\trans.sim"))
+    (Folder "Model Libraries"
+      (Sort User)
+      (File ".\lm5013-q1_trans.lib"
+        (Type "PSpiceLibrary")
+        (DisplayName ".\lm5013-q1_trans.lib")))
+    (Folder "Stimulus Files"
+      (Sort User))
+    (Folder "Include Files"
+      (Sort User)))
+  (DefaultLibraryBrowseDirectory "library\PSpice")
+  (Folder "Logs")
+  (PartMRUSelector
+    (LM5013-Q1DDA_TRANS
+      (FullPartName "LM5013-Q1DDA_TRANS.Normal")
+      (LibraryName
+         "C:\BSR_PROJECTS\PART_NUMBERS\LM5013-Q1\RELEASE_FOLDER\LM5013-Q1_PSPICE_TRANS\LM5013-Q1DDA_TRANS.OLB")
+      (DeviceIndex "0")))
+  (GlobalState
+    (FileView
+      (Path "Design Resources")
+      (Path "Outputs"))
+    (HierarchyView)
+    (Doc
+      (Type "COrCapturePMDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 -1 -1 0 260 0 876"))
+      (Tab 0)))
+  (MPSSessionName "x0266583"))
