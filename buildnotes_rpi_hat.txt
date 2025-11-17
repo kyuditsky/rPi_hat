@@ -1,0 +1,162 @@
+
+may1_23
+
+rev.04
+
+Steady 5vDC output
+
+9-50vDC input (no load)
+
+8-46vDC input (drawing 0.5 - 1.4 Watt load)
+
+
+
+***
+11/10/25
+
+	test most current board, with a rpi load
+	look at new topologies
+	reorganize git	
+		5116_05 > bury in new folder
+		git folder is rpi_hat
+		new folder: 5013-5v
+		
+
+
+new topology: LM5013 - 6-100vin (48v nominal) 3.5A out
+	schematic captured, assigning footprints
+
+	called out schottkey diode not available
+		new selection: V20PW22HM3_A/I
+		added to webench design, and it broke.
+
+
+***
+testing powerhat_rev4.0
+
+test case:
+	riden power supply, sweeping DCv, Iout=300mA
+	waveforms scope1+ to hat_TP_5v
+	observing using waveforms voltmeter
+	all equipment gnds connected
+	
+	Load: 1 small LED + 1kohm R series, tp_5v>gnd
+
+<DC8v: voltage drops to ~1.4v
+>DC8.1v: 5.07v, 50mA
+
+sweeping V, in 1v steps:
+	as Vin increases, I decreases (expected)
+stability drops off at DC46V = 5.06V 32mA
+
+Vout off, adjusted to 50v, vout on
+	stable for a few seconds, then drops off
+	~1.4V output
+tried the same at 48V 52V and 54V
+	same result, tho the lower the V the longer it takes to fall apart
+	
+	
+Conclusion: (not quite true)
+Rev4 operable with small (<50mA) load
+	DC8.1V to 46V 
+
+further testing:
+	only sat at each voltage for a few seconds; 
+	stress testing at 46V
+		by 7minutes, Vout dropped to 3v
+
+	testing again with observation:
+		46V held 30mA load @ 5V for 5 minutes
+	
+	testing at
+		24V held 42mA @ 5V at least 12 minutes
+			(expecting at least twice as much time)
+
+switching voltmeter to scope 1
+
+ripple present:
+
+8.1v	100mV	>1MHz
+9v	139mV	>500kHz
+12v	123mV	>500kHz
+24v	115mV	200kHz
+46v	165mV	150kHz
+	 
+50v	44mV	600kHz	Vout drops to 1.4V
+	fairly abrupt drop, swinging oscillations observed briefly
+		then stable
+55V	vout drops to 1V
+
+____
+pulling LED, adding rpi3 load
+		no peripherials
+
+setting riden supply direct to rpi gpio power
+	5V 1A
+	rpi load spikes to 550mA
+
+attaching powerhat
+	
+12vin
+	vout falls to 3.5v
+24vin
+	vout falls to 4.8v
+36vin
+	vout falls to 4v
+46vin
+	vout falls to 2.7v
+
+scope
+24vin 1A	sawtooth wave, 1v peak2peak
+		avg 3.5v	
+24vin 2A	square with sawtooth lows
+		2.5v p2p
+		avg 4.2v
+		
+24vin 3A	avg 4.7v, max 5.2v
+		2v p2p
+		providing more current gets us closer
+			tho riden displays 50mA
+			signal not clean enough to truely power rpi
+	
+
+
+
+
+
+
+
+
+
+****
+5013 datasheet layout guidelines:
+
+To help eliminate these problems, bypass the VIN pin to GND with a low-ESR ceramic bypass capacitor with
+a high-quality dielectric. Place CIN as close as possible to the VIN and GND pins. Grounding for both the
+input and output capacitors must consist of localized top-side planes that connect to the GND pin and GND
+PAD.
+• Minimize the loop area formed by the input capacitor connections to the VIN and GND pins.
+• Place the inductor and Schottky diode close to the SW pin. Minimize the area of the SW trace or plane to
+prevent excessive capacitive coupling.
+• Place the Schottky diode anode pin in close proximity to input capacitor ground or return.
+• Tie the GND pin directly to the power pad under the device and to a heat-sinking PCB ground plane.
+• Use a ground plane in one of the middle layers as a noise shielding and heat dissipation path.
+• Have a single-point ground connection to the plane. Route the ground connections for the feedback, soft
+start, and enable components to the ground plane, which prevents any switched or load currents from flowing
+in analog ground traces. If not properly handled, poor grounding results in degraded load regulation or erratic
+output voltage ripple behavior.
+• Make VIN, VOUT, and ground bus connections as wide as possible, which reduces any voltage drops on the
+input or output paths of the converter and maximizes efficiency.
+Minimize trace length to the FB pin. Place both feedback resistors, RFB1 and RFB2, close to the FB pin. Place
+CFF (if needed) directly in parallel with RFB1. If output setpoint accuracy at the load is important, connect the
+VOUT sense at the load. Route the VOUT sense path away from noisy nodes and preferably through a layer on
+the other side of a grounded shielding layer.
+• The RON pin is sensitive to noise. Thus, locate the RRON resistor as close as possible to the device and route
+with minimal lengths of trace. The parasitic capacitance from RON to GND must not exceed 20 pF.
+• Provide adequate heat sinking for the LM5013 to keep the junction temperature below 150°C. For operation
+at full rated load, the top-side ground plane is an important heat-dissipating area. Use an array of heatsinking vias to connect the exposed pad to the PCB ground plane. If the PCB has multiple copper layers,
+these thermal vias must also be connected to inner layer heat-spreading ground planes.
+
+
+
+

@@ -3223,7 +3223,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "de48293b-1d53-4086-9e2d-fe2fa8567fc1")
-		(property "Reference" "J2"
+		(property "Reference" "J4"
 			(at 175.26 55.8799 0)
 			(effects
 				(font
@@ -3277,7 +3277,7 @@
 		(instances
 			(project "5013-5v"
 				(path "/8e7b4c5e-20c6-4a15-93b6-2dd8484120f2/e343bfac-2612-434a-9151-e43baa5b7122"
-					(reference "J2")
+					(reference "J4")
 					(unit 1)
 				)
 			)

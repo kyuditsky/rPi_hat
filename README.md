@@ -1,2 +1,5 @@
 
-9-70VDC input to 5V 3A HAT for RapsberryPi 3
+9-70VDCin:: 5V 3A Vout buck converter
+
+
+see buildnotes_rpi_hat.txt for up to date notes/info
