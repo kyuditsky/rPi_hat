@@ -160,3 +160,21 @@ these thermal vias must also be connected to inner layer heat-spreading ground p
 
 
 
+
+****
+11/18/25
+
+check bananajack module pcb carrier
+	fit prototype into carrier if possible
+
+:40x72mm with 2mm safezone offset
+
+
+*****
+'Selecting an Ideal Ripple Generation Network for Constant-On-Time Buck Converter'
+https://www.ti.com/lit/an/snva776a/snva776a.pdf?ts=1762791140202&ref_url=https%253A%252F%252Fwww.ti.com%252Flit%252Fds%252Fsymlink%252Flm5013.pdf%253Fts%253D1762789135733
+
+Type 3 Ripple Network:
+	
+	--feedback resistors create a divider that adjusts the output voltage--
+
