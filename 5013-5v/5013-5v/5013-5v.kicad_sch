@@ -1666,6 +1666,17 @@
 			(embedded_fonts no)
 		)
 	)
+	(text "11/18/25\nbom:5013-5-rev1-part#.csv imported to mouser\nestimated bom cost: 16.13+2.71 tariff"
+		(exclude_from_sim no)
+		(at 173.99 191.262 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "0031081e-1759-42d5-b236-0d276465b49d")
+	)
 	(text "optional \nTHT electro caps"
 		(exclude_from_sim no)
 		(at 32.766 98.552 90)
