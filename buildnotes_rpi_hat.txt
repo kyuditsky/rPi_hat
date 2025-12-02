@@ -188,3 +188,98 @@ added rev1 BOMs
 
 rev1 BOM cost-mouser: 16.13 + 2.71 tariff
 
+
+11/24/25
+ordered multiple passive
+	3 items each -d1, ic1, l1
+ordered pcbs
+fedex
+
+
+
+****
+12/02/25
+parts arrived, pcb's arrived
+
+populated pcb
+dnp: cin2, cout2, c8,c9, r5, pgoodLED
+
+waveforms test
+riden 	psu + to Vin+
+	psu - to Vin-
+AD2 - 	scope1+ to Vout+
+	scope1- to AD2gnd, Vout-
+
+Voltmeter
+no load besides AD2
+riden set to 3Aout
+	PSU DC	Vout	AC RMS (assume ripple)
+	12	5.019	19mV
+	7v	5.032	20mV
+	6v	collapse
+	24v	5.036	26mV
+	36v	5.041	28mV
+	48v	5.046	30mV
+	56v	5.048	32mV
+	59v	5.048	33mV	(maxxed out riden)
+
+Scope
+ripple frequency decreases as Vin increases
+
+
+adding in breadboard
+	powerhat to rails, scope on rails
+	led+1kR, DHT22 load
+patching rpi3, 5v gnd headers to rails
+	voltmeter stabilized at ~4vDC
+	initially encountered an undervoltage error
+	reset power to reboot, succesfully booted raspian
+	rolled through riden vout:
+	48v, 32v, 28v, 20v, 12v, 7vdc
+		rpi stayed booted no issues
+	ripple/noise decreased as Vin decreased
+	
+tested a drop from 48v to 7v and rpi crashed & rebooted
+	tested 48v to 12vdc, no problem
+*try the same test with all the capacitors*
+
+
+back to build
+	led-	0603 footprint, 0805 package 5 onhand from 36628532 (mfg#APT2012LZGCK)
+	r5- 	2.2k
+added cin2, cout2, headers for vin vout
+
+THTelectrocaps on hand were only rated for 50vDC, so ommitted
+
+powering on, basic LED load
+	pgood led is not lit
+	pgood net at IC is 2mV
+		was sort of unsure about this implementation anyway
+
+switching to rpi load
+	12vdc in	drawing 90-160mA, but not stable for pi
+		keeps rebooting
+	switching to 24vin, 48v, no change, not stable
+removing rpi load
+	stable 5vout, 7vin, 48vin
+pulled r5 (led resistor), testing again
+
+
+powering pi direct from riden, 5vout
+	pi draws ~500mA
+back to powerhat, took a while but booted at 18vDC in
+drawing 125mA
+scope is stable at 4.25vDC, powerhat is audibly noisy
+
+
+attempted 48vin to 7vin, crashed the pi again
+	pi did reboot at 7vin
+pgood cicuit may have destablized the powerhat, also shutdown pi with software
+	(while powered by the riden)
+	which may have been the culprit
+powerhat can jump from 7vin to 48vin while providing stable 5vout powering a pi
+	thats cool.
+	riden is supplying 40mA while powering pi
+
+
+
