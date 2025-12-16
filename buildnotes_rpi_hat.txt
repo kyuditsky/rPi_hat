@@ -280,6 +280,168 @@ pgood cicuit may have destablized the powerhat, also shutdown pi with software
 powerhat can jump from 7vin to 48vin while providing stable 5vout powering a pi
 	thats cool.
 	riden is supplying 40mA while powering pi
+	[note the hdmi was backfeeding some power]
 
+****
+12/9/25
+
+building out a 2nd board
+
+pcb was designed 40x72mm 
+pcb carriers on hand are 40x42mm (bananajack breakout)
+
+***
+ACS711
+[NOTE: datasheet states <100v isolation applications]
+
+current sense first tests:
+
+riden psu to powerhat (24v)
+
+vout+ to afe Ip/In to breadboard +
+vout- 		to breadboard -
+breadboard-	to afe earth & dgnd
+		to ad2 gnd
+
+breadboard has an LCD1602 & 1led installed
+
+AD2 power supply 3.3v to AFE
+
+AFE A2 to AD2 scope1+, 	A2 voltmeter: 1.66V
+
+riden turned off	A2 voltmeter: 1.66v
+	no change
+	[3.3v /2 = 1.66v]		#read online that Vcc/2 is baseline, double check datasheet
+	
+[see diagram]
+	*draw diagram
+
+adding rPi to breadboard rails:
+	(no hdmi out)
+
+A2 voltmeter:	1.674-1.681v
+(im not positive that the pi boots without the HDMI
+	need to check with the TTL console cable)
+riden is showing 44mA out
+
+rpi does not appear to boot
+	gets to a point then resets
+	vout flucuates
+added 22uf and 1uf electro caps to rails
+
+okay
+resetting riden to 5v and directly to breadboard rails
+pi booted fine
+
+AD2 reading 4.7V on positive rail
+riden reading 500mA out
+
+back to the powerhat, riden at 24v
+pulled ACS711 out of the loop
+will pi boot? 
+
+
+
+
+
+
+unrelated - rightangle safety bananajacks can be had in semi-bulk from ebay
+	for way less than mouser/individual
+	knockoffs but says 1000v/24a
+
+12/10/25
+built 2nd pcb
+	-DNP pgood1, r5, cout2, c8,c9
+
+testing board2
+
+noload
+ridenVin	powerhatVout
+	12	5.074
+	24	5.087
+	32	5.091
+	48	5.096
+	7	5.079
+	6	null
+	59	5.1
+
+breadboard rails - LED + lCD1602
+	similar results
+
+adding pi load + hmdi
+	riden pulling 95mA
+	voltmeter on rails - 4.386
+pi boots just fine
+	note hdmi is backfeeding breadboard/pi
+switching to powerhat1
+	functional difference is Cout2 is populated
+	pi boots just fine today
+	weird
+	rail is at 4.395, LCD flickers/dim
+consider adding lm7805 regulator
+	*7805 needs at least 7.3v input
+	*doesnt fit the use case
+	*could redesign powerhat to output 7.5v, to regulate to 5v
+	*would only provides 1.5A output (7805 limitation)
+
+the lcd + led on breadboard draw 14mA @ 5vin
+
+cut down powerhat rev1 board 2 to fit into 40x42mm din rail carrier
+	still works
+
+****
+12/15/25
+
+installed puTTY on win10 q400a machine
+connected usb-to-serial cable
+
+powered pi via 2.4a microUSB cable
+	confirmed serial connection
+
+powered pi via powerhat
+	was not able to boot/connect via serial
+
+***
+double checking lm5013 datasheet
+	should be able to pull 3.5A max
+seems like a current issue, when trying to boot, powerhat pulls up to 150mA from riden
+with some regularity, drops to ~40mA, before rising back up
+scope shows 5V DC with drops as low as 3.4V dc
+coincides with current dropout
+
+
+Pgood is open-drain output, Pull-up, needs connected to source V via 10k-100k R
+	(i had it setup as a pulldown connected to GND)
+	neither board has the pgood1 R or LED populated
+
+going to try a 10k R from pgood to vout+ on board1
+testing board 1 first (Same setup as earlier)
+
+no change to rpi boot
+
+added old pi-hat project, with the transistors and mosfets at 5v_Hat
+no joy
+
+back to riden direct, through the old pi-hat
+pulling upwards of 700mA
+
+using the riden/hat doesnt give a stable boot either (it was a trash hat anyway)
+directly from the riden to pi doesnt give stable boot, suspect pi needs a true software reboot
+
+reboot helped
+was able to do a puTTY boot from riden
+
+powerhat would not boot the rpi without an hdmi cable attached
+
+suspect powerhat isnt providing enough current during startup
+	& the stable 50mA backfed from the hdmi is enough to boot it
+
+***
+12/16/25
+
+considered redesigning the 5013 to output 7.5v and using a 7805 for max 1.5A
+	but realized just doing that wouldnt increase the current output of the 5013 as is
+
+ 
 
 
