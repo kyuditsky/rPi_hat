@@ -443,5 +443,119 @@ considered redesigning the 5013 to output 7.5v and using a 7805 for max 1.5A
 	but realized just doing that wouldnt increase the current output of the 5013 as is
 
  
+added a variety of electro caps on the input as well as output
+	while it smoothed the waveform it did not provide enough current smoothing to boot
+pi trying to boot:
+input freq ~ 150kHz
+output freq ~ 300kHz
 
+simple load:
+in 300-400kHz
+out 7kHz
+
+added 8.2uH inductor in series to V+ from supply to vin+
+____
+
+***
+12/30/25
+
+got rid of input inductors and capacitors
+
+testing new load:
+	10ohm Resistors
+	2 parallel sets in series
+	giving 10ohm load, expect 1/2W power rating
+
+24Vin
+riden load = 75mA		75mA @ 5V = 3.75W
+Voltage on scope = 3.87v
+	Vdrop = 1.13v
+expected vdrop=0.81v
+
+voltage drop varies based upon Vin
+	lower Vin, more drop
+48vin - 4.33v	47mA
+12vin - 3.45v	110mA
+same load
+
+very chaotic signal at 36vin - 4.8v measured 77mA
+	audible noise from powerhat
+
+7vin	293mA	4.489Vout
+
+
+_____
+
+pulled powerhat from circuit
+
+riden - 5Vout
+	11ohm load
+
+
+Vset-	5V
+Iset - 	400mA
+Vout-	4.26V
+Iout-	398mA	
+
+Iset-	500mA
+Vout-	4.99V
+Iout-	464mA
+
+*********
+our 4-resistor 11ohm network draws 464mA
+ohms law gives:
+	5V, 10.8ohm, 0.462A, 2.31W 
+	confirmed with observations
+*********
+thats the standard
+resisters didnt blow up, but giving off a lot of heat
+
+adding back in the powerhat
+
+riden 9vin
+scope voltmeter - 3.85v
+riden Iout - 180mA
+
+rolling through Vin, 
+30Vin gets close at 4.9vout
+	Iout 90mA
+
+okay big takeaway: [resistor network is 10.8ohm and draws 464mA]
+
+****
+Switching gears to the AFE Current Sense
+
+we know that the Rnetwork pulls 464mA
+
+setup AFE current sense (ACS711)
+	powered from AD2 (3.3v)
+voltmeter1 > A2 (acs711 output)
+voltmeter2 > 3v3 (for accurate reference)
+
+Rnetwork powered by Riden 5Vout
+Ip/In in series from +5v to Rnetwork
+
+Vmeter1 shows 1.689v
+
+found formula on web:	[https://www.pololu.com/product/2452]
+I = (Vout/Vcc * 36.7) - 18.3
+
+gives	714mA
+	669mA
+
+testing with powerhat with rnetwork @ 36Vin
+	661mA
+	666mA
+
+testing riden with 1k load, riden Vset=5V Iset=1A
+	1.0012A
+
+testing powerhat with 1kload, riden Vset=26v Iset=1A
+	2.047A
+
+added pi load
+	current sense read 0.838 at times but still did not boot
+
+formula seems to work
+	did not sucessfully set the voltmeter to scale
 
