@@ -559,3 +559,76 @@ added pi load
 formula seems to work
 	did not sucessfully set the voltmeter to scale
 
+
+***
+01/19/26
+
+10W resistors
+
+measured and matched set of 5.1R
+setup parallel
+
+riden24V2A
+
+1R 	0.091A
+	3.54V
+ran into issues with breadboard
+
+wired 3 resistors in parallel on perf board
+	measured 2.0 	(1.7 expected)
+
+using the pihat & afe current sense
+formula: (Vout/Vcc*36.7)-18.3
+current sense returned 820mA
+
+removed afe:
+measured current with multimeter: 1.23A
+
+looks like the formula is off
+
+
+removed pihat
+riden5V3A
+same 2.0R load
+measured current with multimeter: 1.75A
+	riden reads: 1.75A
+ohms law gives: 2.85R
+
+added scope1 to rail+: 4.00V (1V drop)
+
+added pihat
+riden12v3A
+riden reads:0.33A
+scope1 : 2.59v
+Meter reads: 1.0A
+ohms law gives 2.85V
+
+
+
+doubled the load, 6 resistor in parallel: 1.2R
+
+riden5v2a: pulling 2A
+
+riden5v3a: pulling 2.3A
+	scope: 3.69V (1.31v drop)
+
+LOAD: 2.3A
+add pihat
+riden12v3a		494mA
+		meter:	1.43A
+		scope:	2.72V
+
+riden24V3a		299ma
+			1.68A
+			2.93V
+
+riden36v3a		236ma
+			1.80A
+			2.95v
+
+riden48v3a		183ma
+			1.91A
+			3.01V
+
+conclusion: using a load that pulls 2.3A
+	the pihat was only able to deliver 1.91A
