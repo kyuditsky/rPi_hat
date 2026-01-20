@@ -632,3 +632,168 @@ riden48v3a		183ma
 
 conclusion: using a load that pulls 2.3A
 	the pihat was only able to deliver 1.91A
+
+
+jumping back to 3resistor load: 2ohm
+riden24v3a		234mA
+			1.14a
+			3.244V
+
+added in rpi, did not boot
+double checked rpi will boot through serial cable with 5v 2.4a power brick
+
+still seems like a lack of current issue
+
+
+
+****
+01/20/26
+
+todays plans
+
+attempt headless pi boot from gpio using the riden at 5V3A
+
+look over pi rails schematic
+
+breakout microusb cable and attempt a headless boot from riden
+	as well as powerhat, to microusb
+
+look over powerhat schematic, determine efficiancy as vcc increases/decreases
+	compare to current pull of load pcb
+
+research inductor saturation and see if we can measure
+
+ 
+*
+riden5v3a to gpio, 5v through multimeter ammeter
+ttl serial cable to usb, blk to gnd, white to tx, grn to rx
+
+max current obs(meter): 740ma
+dropout to 120ma, rises back to 740ma max then drops again
+riden output matches
+no boot
+
+conclude: issue with headless booting through gpio
+
+
+*
+pi rails scheme
+usb-b only using vbus+ & gnd
+main difference from vbus+ and gpio5v is an smd fuse and proximity to filter caps
+draw should never really exceed 800ma
+
+*
+confirmed good microUsb (with putty boot), broke out cables (red and blk, 5v & gnd)
+powered via riden 5V3A, with ammeter between vcc+ & Vbus+
+
+encountered issues booting through the usb cable after breakout
+	suspect ammeter was drawing current away
+	after removing ammeter, boots fine
+	observing voltage via AD2 scope1
+usbbrick voltage 5.18 (no load)
+	on powering pi, dropped to no lower than 4.8v
+
+replacing usb brick with riden 5v3a
+	dropped to 4.3v
+setting riden at 5.2v
+	drop as low as 4.1v
+	upwards of 700ma
+still not booting the pi tho
+
+very odd
+
+test points on pi are PP2 (5v) PP3 (gnd)
+	underside of board, next to usbmicroB
+
+riden supply drops to min 4.4v while trying to boot
+
+*
+boosted riden to 12v
+added 7805 configured to 5vout to breadboard rails
+rail is maintaining 4.9-5.0v
+adding filter caps doesnt seem to help
+
+still cant get a putty boot
+
+*
+okeeedokey
+suspect the breadboard/jumper wires might not be too thin to to supply current
+
+connected riden5.2v3a directly to microusb breakout cable
+current max on startup: 920ma peak
+current typ on running: 395ma
+we got a boot!
+
+touch ridenpoweron
+sudo shutdown now
+
+conclude: breadboard jumpers are too wimpy to accurately power& test D:
+
+swapping microusb for jumpers direct to gpio
+current max on startup: 970ma
+pibooted!
+
+touch ridenbootgpio
+sudo shutdown now
+
+okay
+same cables but jumping through the breadboard
+current max: 742ma
+no boot
+
+conclude: breadboard is an issue.
+
+*
+added headers to a kludge area on old pcb
+max current observed: 740ma
+pibooted
+touch ridenbootthroughjumppcb
+sudo shutdown now
+
+powering 1 more time
+currentpeaked at 680ma
+putty acting strange
+did finally boot
+current typ on running: 405ma
+
+different jumper setup on jumppcb
+peak: 680ma
+typ: 404ma
+did boot
+experienced a brownout
+recovered to console
+sudo shutdown now
+
+*
+adding powerhat in series, passing through jumppcb
+riden 18v3a
+peak: 80mA
+
+no boot
+
+removing jumppcb
+no boot
+
+riden48v3a
+	earlier tests proved that the higher VCC, the high the available outputcurrent
+still no boot
+
+last ditch, powerhat to microusb
+peak: 85mA
+no dice
+
+**
+hooked ammeter up to powerhat vout to 5vgpio
+scope up to 5vgpio
+max current: 250mA
+voltage swings from 4.9v to 3.5v
+
+
+conclude: breadboard was definitely causing issues
+powerhat can still not supply enough current to power a headless pi
+
+the only difference between microusb+ and 5v gpio is a fuse on microusb
+
+add option for screw or snap terminals on next board
+	include 2.54mm spaced headers as well
+always include header test points on prototypes
