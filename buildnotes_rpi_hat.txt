@@ -797,3 +797,62 @@ the only difference between microusb+ and 5v gpio is a fuse on microusb
 add option for screw or snap terminals on next board
 	include 2.54mm spaced headers as well
 always include header test points on prototypes
+
+
+
+
+****
+02/10/26
+
+shipped 5013-v1, board2, in 40x42mm din rail carrier
+
+testing board1, no breadboard, 2ohm load (of three 5.1ohm load resistors)
+
+9vin, 2a: board began to oscillate, dropping to 1.4a out of riden
+	physical pressure applied to 5013 IC, 
+		audible oscilation ceased, current increased to 1.6a
+	5013 was hot
+		leading to believe there is not good ground pad contact under IC
+
+0.3v drop between vout and load, on each side (Vdrop over leads)
+3.9v measured between sides of load
+
+**
+adding 47uf cap to input side
+added series inductor & 47uf cap to output side (through breadboard)
+
+still experienced drops outs as low as 4.3V on trying to boot
+
+*
+measuring known good usb power supply, input peaks at 5.1v and drops no lower than 4.89v
+boots fine
+
+
+*
+demonstrated with load resistors, 5013v1 can supply at least 1.5a to a constant load, as is
+
+suspect the transient load of the rpi boot throws it off, 
+	pi gets stuck in an undervoltage reboot loop
+	5013 chip should be able to handle that
+
+**
+thoughts on PCBdesign:
+
+the ground planes on the board could be adjusted
+	gnd & gnd1 are in/out planes, connected via R6 (jumper)
+		
+pgood wasnt setup correctly
+		rev1 has it pulldown to gnd
+	it is an open drain output from the IC
+		kludged 10kohm resistor from pgood to vout+
+		try a much smaller resistor
+			ifnot:
+				omit it from rev2 entirely
+
+adjust the circuit frequency to output 5.2v
+
+
+
+
+
+
